@@ -3,6 +3,25 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
+// ny användare
+router.post("/register", async (req, res) => {
+    try {
+        const user = new User(req.body);
+        await user.validate(); // validerar mot mongoose schemat
+        const result = await user.save();
+        return res.status(201).json(result);
+    } catch (error) {
+        if (error.name === "ValidationError") { // kontrollerar valieringsfel
+            const errors = {}; // vid valideringsfel skapas error
+            for (let field in error.errors) { // loopar över fält med valideringsfel
+                errors[field] = error.errors[field].message; // och lägger till felmeddelande
+            }
+            return res.status(400).json({ errors });
+        }
+        return res.status(400).json({ message: "Error adding data", error: error.message });
+    }
+});
+
 // login för användare
 router.post("/login", async (req, res) => {
     try {
