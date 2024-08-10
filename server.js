@@ -26,6 +26,10 @@ mongoose.connect(process.env.DATABASE).then(() => {
 app.use("/api", authRoutes);
 app.use("/dishes", dishRoutes);
 
+app.get("/", (req, res) => {
+    res.json({ message: "PASTA PLACE API" });
+});
+
 // skyddad route
 app.get("/api/protected", authenticateToken, (req, res) => {
     res.json({ message: "Protected route..." });
