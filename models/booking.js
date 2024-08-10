@@ -4,24 +4,26 @@ const bookingSchema = new mongoose.Schema({
     customer: { // kundens kontaktuppgifter
         name: {
             type: String,
-            required: true
+            required: [true, "Du måste ange ett namn för bokningen"],
+            trim: true,
+            maxlength: [35, "Namnet får inte var längre än 35 tecken"]
         },
         phoneNumber: {
             type: Number,
-            required: true
+            required: [true, "Du måste ange ett telefonnummer för bokningen"]
         },
         email: {
             type: String,
-            required: true
+            required: [true, "Du måste ange en e-postadress för bokningen"],
         }
     },
     bookingDate: {
         type: Date,
-        required: true
+        required: [true, "Du måste välja ett datum"]
     },
     guests: {
         type: Number,
-        required: true,
+        required: [true, "Du måste välja antal gäster"],
         min: 1
     },
     requests: { // speciella önskemål (inte oblig)
