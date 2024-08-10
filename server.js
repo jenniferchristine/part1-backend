@@ -40,3 +40,17 @@ app.get("/api/protected", authenticateToken, (req, res) => {
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
+
+/*const newBooking = new Booking({
+    custome: {
+        name: "Jennifer Jakobsson",
+        phoneNumber: "0706856249",
+        email: "jenifferjacobsson@live.se"
+    },
+    bookingDate: new Date("2024-08-15T19:00:00Z"), // datum i iso-format
+    guests: 3,
+    requests: "Glutenfritt",
+});
+
+newBooking.save();
+console.log("Insert successful");*/
