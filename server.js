@@ -2,10 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const Dish = require("./models/dish");
 
 // importera
 const authRoutes = require("./routes/authRoutes");
-const dishRoutes = require("./routes/dishRoutes");
+/*const dishRoutes = require("./routes/dishRoutes");*/
 const authenticateToken = require("./middleware/authMiddleware");
 
 const app = express();
@@ -24,10 +25,20 @@ mongoose.connect(process.env.DATABASE).then(() => {
 
 // routes
 app.use("/api", authRoutes);
-app.use("/dishes", dishRoutes);
+/*app.use("/dishes", dishRoutes);*/
 
 app.get("/", (req, res) => {
     res.json({ message: "PASTA PLACE API" });
+});
+
+// hämta alla maträtter
+app.get("/dishes", async (req, res) => {
+    try {
+        const result = await Dish.find({});
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching data", error: error.message });
+    }
 });
 
 // skyddad route

@@ -2,16 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Dish = require("../models/dish");
 
-// hämta alla maträtter
-router.get("/dishes", async (req, res) => {
-    try {
-        const result = await Dish.find({});
-        res.json(result);
-    } catch (error) {
-        res.status(500).json({ message: "Error fetching data", error: error.message });
-    }
-});
-
 // hämta en specifik maträtt
 router.get("/dishes/:id", async (req, res) => {
     try {
