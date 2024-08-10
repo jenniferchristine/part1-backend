@@ -1,5 +1,27 @@
 const mongoose = require("mongoose");
 
+// självkörande funktion för att hantera anslutning
+(async () => {
+    try {
+        await mongoose.connect("mongodb+srv://jeja2306:JejaMiun123@jeja.t13agrm.mongodb.net/");
+        console.log("Connected to MongoDB...");
+        
+        const newDish = new Dish({
+            name: "Spagetti", 
+            description: "God maträtt", 
+            price: "129", 
+            category: "Huvudrätt",
+            ingredients: "Parmesan",
+        });
+        
+        await newDish.save();
+        console.log("Insert successful");
+        
+    } catch (error) {
+        console.error("Error when connecting to the database:", error);
+    }
+})();
+
 // egenskaper för alla maträtter
 const dishSchema = new mongoose.Schema({
     name: { type: String, required: true, unique: true }, // maträttens namn
@@ -10,7 +32,5 @@ const dishSchema = new mongoose.Schema({
     created: { type: Date, default: Date.now }
 });
 
-const dish = mongoose.model("Dish", dishSchema); // inkludera till databas
-
-const Dish = mongoose.model("Dish", dishSchema); // skapar modell baserat på userSchema
+const Dish = mongoose.model("Dish", dishSchema); // inkludera till databas
 module.exports = Dish; // exporterar modellen så den kan användas i andra filer
