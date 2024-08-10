@@ -11,8 +11,8 @@ const authenticateToken = require("./middleware/authMiddleware");
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 
 // anslut till databasen
 mongoose.set("strictQuery", false);
@@ -24,7 +24,7 @@ mongoose.connect(process.env.DATABASE).then(() => {
 
 // routes
 app.use("/api", authRoutes);
-app.use("/api", dishRoutes);
+app.use("/dishes", dishRoutes);
 
 // skyddad route
 app.get("/api/protected", authenticateToken, (req, res) => {
