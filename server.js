@@ -28,7 +28,7 @@ app.use("/api", authRoutes);
 /*app.use("/dishes", dishRoutes);*/
 
 app.get("/", (req, res) => {
-    res.json({ message: "PASTA PLACE API" });
+    res.json({ message: "PASTA PLACE API :-)" });
 });
 
 // hämta alla maträtter
