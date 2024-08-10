@@ -26,8 +26,7 @@ mongoose.connect(process.env.DATABASE).then(() => {
 });
 
 // routes
-app.use("/api", authRoutes);
-app.use("/", dishRoutes);
+app.use("/", authRoutes, dishRoutes);
 
 app.get("/", (req, res) => {
     res.json({ message: "PASTA PLACE API :-)" });
