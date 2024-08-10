@@ -6,7 +6,6 @@ const Dish = require("./models/dish");
 
 // importera
 const authRoutes = require("./routes/authRoutes");
-/*const dishRoutes = require("./routes/dishRoutes");*/
 const authenticateToken = require("./middleware/authMiddleware");
 
 const app = express();
@@ -38,6 +37,50 @@ app.get("/dishes", async (req, res) => {
         res.json(result);
     } catch (error) {
         res.status(500).json({ message: "Error fetching data", error: error.message });
+    }
+});
+
+// hämta en specifik maträtt
+app.get("/dishes/:id", async (req, res) => {
+    try {
+        const result = await Dish.findById(req.params.id);
+        if (!result) return res.status(404).json({ message: "Data not found" });
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching data", error: error.message });
+    }
+});
+
+// lägg till en ny maträtt
+app.post("/dishes", async (req, res) => {
+    try {
+        const newDish = new Dish(req.body);
+        const result = await newDish.save();
+        res.status(201).json(result);
+    } catch (error) {
+        res.status(400).json({ message: "Error adding data", error: error.message });
+    }
+});
+
+// uppdatera en maträtt
+app.put("/dishes/:id", async (req, res) => {
+    try {
+        const result = await Dish.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        if (!result) return res.status(404).json({ message: "Could not update data" });
+        res.json({ message: "Updated successfully", result });
+    } catch (error) {
+        res.status(500).json({ message: "Error when updating", error: error.message });
+    }
+});
+
+// ta bort en maträtt
+app.delete("/dishes/:id", async (req, res) => {
+    try {
+        const deleteData = await Dish.findByIdAndDelete(req.params.id);
+        if (!deleteData) return res.status(404).json({ message: "Data could not be deleted" });
+        res.json({ message: "Deleted successfully", deleteData });
+    } catch (error) {
+        res.status(500).json({ message: "Error when deleting", error: error.message });
     }
 });
 
