@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 
-// självkörande funktion för att hantera anslutning
+/*
 (async () => {
     try {
         await mongoose.connect("mongodb+srv://jeja2306:JejaMiun123@jeja.t13agrm.mongodb.net/");
         console.log("Connected to MongoDB...");
         
         const newDish = new Dish({
-            name: "Spagetti", 
+            name: "Lemon pasta", 
             description: "God maträtt", 
             price: "129", 
             category: "Huvudrätt",
-            ingredients: "Parmesan",
+            ingredients: ["Parmesan", "Citron", "Pasta"],
         });
         
         await newDish.save();
@@ -21,6 +21,7 @@ const mongoose = require("mongoose");
         console.error("Error when connecting to the database:", error);
     }
 })();
+*/
 
 // egenskaper för alla maträtter
 const dishSchema = new mongoose.Schema({
