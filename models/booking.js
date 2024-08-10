@@ -4,24 +4,24 @@ const bookingSchema = new mongoose.Schema({
     customer: { // kundens kontaktuppgifter
         name: {
             type: String,
-            requried: true
+            required: true
         },
         phoneNumber: {
             type: Number,
-            requried: true
+            required: true
         },
         email: {
             type: String,
-            requried: true
+            required: true
         }
     },
     bookingDate: {
         type: Date,
-        requried: true
+        required: true
     },
     guests: {
         type: Number,
-        requried: true,
+        required: true,
         min: 1
     },
     requests: { // speciella önskemål (inte oblig)

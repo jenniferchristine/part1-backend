@@ -7,6 +7,7 @@ require("dotenv").config();
 // importera
 const authRoutes = require("./routes/authRoutes");
 const dishRoutes = require("./routes/dishRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
 const authenticateToken = require("./middleware/authMiddleware");
 
 const app = express();
@@ -25,7 +26,7 @@ mongoose.connect(process.env.DATABASE).then(() => {
 });
 
 // routes
-app.use("/", authRoutes, dishRoutes);
+app.use("/", authRoutes, dishRoutes, bookingRoutes);
 
 app.get("/", (req, res) => {
     res.json({ message: "PASTA PLACE API :-)" });
