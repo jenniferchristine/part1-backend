@@ -38,7 +38,7 @@ const dishSchema = new mongoose.Schema({
 });
 
 // virtuell egenskap som visar kr efter pris
-dishSchema.virtual("price").get(function() {
+dishSchema.virtual("currency").get(function() {
     return this.price + "kr";
 });
 
