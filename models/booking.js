@@ -19,7 +19,7 @@ const bookingSchema = new mongoose.Schema({
     },
     bookingDate: {
         type: Date,
-        required: [true, "Du måste välja ett datum"]
+        required: [true, "Du måste välja både datum och tid"]
     },
     guests: {
         type: Number,
