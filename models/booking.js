@@ -17,19 +17,9 @@ const bookingSchema = new mongoose.Schema({
             required: [true, "Du måste ange en e-postadress för bokningen"],
         }
     },
-    date: {
+    bookingDate: {
         type: Date,
         required: [true, "Du måste välja ett datum"]
-    },
-    time: {
-        type: String,
-        required: [true, "Du måste välja en tid"],
-        validate: {
-            validator: function(v) {
-                return /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(v); // regexuttryck för säkerställa 24h-format
-            },
-            message: props => `${props.value} är inte ett giltigt tidformat!`
-        }
     },
     guests: {
         type: Number,
