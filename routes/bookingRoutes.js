@@ -16,10 +16,18 @@ router.get("/bookings", async (req, res) => {
 router.post("/bookings", async (req, res) => {
     try {
         const newBooking = new Booking(req.body);
-        const result = await newBooking.save();
-        res.status(201).json(result);
+        await newBooking.validate(); // validerar mot mongoose
+        const result = await newBooking.save(req.body);
+        return res.status(201).json(result);
     } catch (error) {
-        res.status(400).json({ message: "Error adding data", error: error.message });
+        if (error.name === "ValidationError") { // kontrollerar valieringsfel
+            const errors = {}; // vid valideringsfel skapas error
+            for (let field in error.errors) { // loopar över fält med valideringsfel
+                errors[field] = error.errors[field].message; // och lägger till felmeddelande
+            }
+            return res.status(400).json({ errors });
+        }
+        return res.status(400).json({ message: "Error adding data", error: error.message });
     }
 });
 
