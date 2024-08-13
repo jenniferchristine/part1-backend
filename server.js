@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
 });
 
 // skyddad route
-app.get("/api/protected", authenticateToken, (req, res) => {
+app.get("/protected", authenticateToken, (req, res) => {
     res.json({ message: "Protected route..." });
 });
 
