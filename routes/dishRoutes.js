@@ -23,7 +23,27 @@ router.get("/dishes/:id", async (req, res) => {
     }
 });
 
+
 // lägg till en ny maträtt
+router.post("/dishes", async (req, res) => {
+    try {
+        const newDish = new Dish(req.body);
+        await newDish.validate(); // validerar mot mongoose
+        const result = await newDish.save(req.body);
+        return res.status(201).json(result);
+    } catch (error) {
+        if (error.name === "ValidationError") { // kontrollerar valieringsfel
+            const errors = {}; // vid valideringsfel skapas error
+            for (let field in error.errors) { // loopar över fält med valideringsfel
+                errors[field] = error.errors[field].message; // och lägger till felmeddelande
+            }
+            return res.status(400).json({ errors });
+        }
+        return res.status(400).json({ message: "Error adding data", error: error.message });
+    }
+});
+
+/*
 router.post("/dishes", async (req, res) => {
     try {
         const newDish = new Dish(req.body);
@@ -33,6 +53,7 @@ router.post("/dishes", async (req, res) => {
         res.status(400).json({ message: "Error adding data", error: error.message });
     }
 });
+*/
 
 // uppdatera en maträtt
 router.put("/dishes/:id", async (req, res) => {
