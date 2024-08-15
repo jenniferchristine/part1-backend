@@ -28,10 +28,10 @@ const dishSchema = new mongoose.Schema({
         type: String,
         required: [true, "Du behöver ange vad rätten innehåll, t.ex. nötter eller gluten"]
     },
-    ingredients: [{ // fixa modell till detta för antal och mängd? 
+    ingredients: { // fixa modell till detta för antal och mängd? 
         type: String, 
         required: [true, "Du måste ange maträttens ingredienser"]
-    }], 
+    }, 
     created: { 
         type: Date, default: Date.now 
     }
