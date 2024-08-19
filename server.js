@@ -39,7 +39,7 @@ app.get("/dishes", dishRoutes);
 // skyddat resterande crud av meny
 app.post("/dishes", authenticateToken, dishRoutes);
 app.put("/dishes/:id", authenticateToken, dishRoutes);
-app.delete("/dishes:id", authenticateToken, dishRoutes);
+app.delete("/dishes/:id", authenticateToken, dishRoutes);
 
 // offentlig post route för att boka bord
 app.post("/bookings", bookingRoutes);
