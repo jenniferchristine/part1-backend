@@ -43,18 +43,6 @@ router.post("/dishes", async (req, res) => {
     }
 });
 
-/*
-router.post("/dishes", async (req, res) => {
-    try {
-        const newDish = new Dish(req.body);
-        const result = await newDish.save();
-        res.status(201).json(result);
-    } catch (error) {
-        res.status(400).json({ message: "Error adding data", error: error.message });
-    }
-});
-*/
-
 // uppdatera en maträtt
 router.put("/dishes/:id", async (req, res) => {
     try {
