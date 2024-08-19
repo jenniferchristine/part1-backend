@@ -30,6 +30,9 @@ app.get("/", (req, res) => {
     res.json({ message: "PASTA PLACE API :-)" });
 });
 
+// route för auth
+app.use("/", authRoutes);
+
 // offentlig route för att se meny
 app.get("/dishes", dishRoutes);
 
