@@ -25,14 +25,28 @@ mongoose.connect(process.env.DATABASE).then(() => {
     console.error("Error when connecting to database...", error);
 });
 
-// routes
-app.use("/", authRoutes, dishRoutes, bookingRoutes);
-
+// offentlig route för att nå api
 app.get("/", (req, res) => {
     res.json({ message: "PASTA PLACE API :-)" });
 });
 
-// skyddad route
+// offentlig route för att se meny
+app.get("/dishes", dishRoutes);
+
+// skyddat resterande crud av meny
+app.post("/dishes", authenticateToken, dishRoutes);
+app.put("/dishes/:id", authenticateToken, dishRoutes);
+app.delete("/dishes", authenticateToken, dishRoutes);
+
+// offentlig post route för att boka bord
+app.post("/bookings", bookingRoutes);
+
+//skyddat resterande av CRUD för bokning
+app.get("/bookings", authenticateToken, bookingRoutes);
+app.put("/bookings/:id", authenticateToken, bookingRoutes);
+app.delete("/bookings/:id", authenticateToken, bookingRoutes);
+
+// skyddad route för inlogg
 app.get("/admin", authenticateToken, (req, res) => {
     res.json({ message: "Protected route..." });
 });
