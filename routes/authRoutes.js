@@ -3,10 +3,6 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-router.get("/test", async (req, res) => {
-    res.json({ message: "Testing authRoutes" });
-});
-
 // ny användare
 router.post("/register", async (req, res) => {
     try {
