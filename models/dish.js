@@ -22,7 +22,7 @@ const dishSchema = new mongoose.Schema({
     }, 
     category: { 
         type: String, 
-        required: [true, "Maträtten måste kategoriseras"] 
+        required: [true, "Vänligen kategorisera rätten som för-, huvud- eller efterrätt"] 
     },  
     contains: {
         type: String,
