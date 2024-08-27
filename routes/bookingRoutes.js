@@ -36,8 +36,8 @@ router.put("/bookings/:id", async (req, res) => {
     try {
         const update = await Booking.findByIdAndUpdate(req.params.id);
         await update.validate(); // validerar mot mongoose
-        const updatedBooking = await updatedBooking.save(req.body);
-        return res.status(201).json(result);
+        const updatedBooking = await update.save(req.body);
+        return res.status(201).json(updatedBooking);
     } catch (error) {
         if (error.name === "ValidationError") { // kontrollerar valieringsfel
             const errors = {}; // vid valideringsfel skapas error
