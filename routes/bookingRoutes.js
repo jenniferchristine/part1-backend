@@ -34,13 +34,29 @@ router.post("/bookings", async (req, res) => {
 // uppdatera en bokning
 router.put("/bookings/:id", async (req, res) => {
     try {
+        const result = await Booking.findByIdAndUpdate(req.params.id, req.body);
+        await result.validate(); // validerar mot mongoose
+        return res.status(201).json(result);
+    } catch (error) {
+        if (error.name === "ValidationError") { // kontrollerar valieringsfel
+            const errors = {}; // vid valideringsfel skapas error
+            for (let field in error.errors) { // loopar över fält med valideringsfel
+                errors[field] = error.errors[field].message; // och lägger till felmeddelande
+            }
+            return res.status(400).json({ errors });
+        }
+        return res.status(400).json({ message: "Error adding data", error: error.message });
+    }
+});
+/*router.put("/bookings/:id", async (req, res) => {
+    try {
         const result = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!result) return res.status(404).json({ message: "Could not update data" });
         res.json({ message: "Updated successfully", result });
     } catch (error) {
         res.status(500).json({ message: "Error when updating", error: error.message });
     }
-});
+});*/
 
 // hämta en specifik bokning
 router.get("/bookings/:id", async (req, res) => {
