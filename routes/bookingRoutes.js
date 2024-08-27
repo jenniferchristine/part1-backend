@@ -34,7 +34,7 @@ router.post("/bookings", async (req, res) => {
 // uppdatera en bokning
 router.put("/bookings/:id", async (req, res) => {
     try {
-        const update = await Booking.findByIdAndUpdate(req.params.id);
+        const update = await Booking.findByIdAndUpdate(req.params.id, req.body);
         await update.validate(); // validerar mot mongoose
         const updatedBooking = await update.save(req.body);
         return res.status(201).json(updatedBooking);
