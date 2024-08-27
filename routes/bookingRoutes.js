@@ -35,9 +35,11 @@ router.post("/bookings", async (req, res) => {
 router.put("/bookings/:id", async (req, res) => {
     try {
         const update = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-        await update.validate(); // validerar mot mongoose
-        const updatedBooking = await update.save(req.body);
-        return res.status(201).json(updatedBooking);
+        if (!result) {
+            return res.status(404).json({ message: "Data with specific id not found" });
+        }
+
+        return res.status(200).json(result);
     } catch (error) {
         if (error.name === "ValidationError") { // kontrollerar valieringsfel
             const errors = {}; // vid valideringsfel skapas error
