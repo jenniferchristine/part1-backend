@@ -34,23 +34,20 @@ router.post("/bookings", async (req, res) => {
 // uppdatera en bokning
 router.put("/bookings/:id", async (req, res) => {
     try {
-        const update = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-        if (!result) {
-            return res.status(404).json({ message: "Data with specific id not found" });
-        }
-
-        return res.status(200).json(result);
+        const result = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true }); // returnera det uppdaterade dokumentet
+        await result.validate(); // validerar mot mongoose
+        return res.status(200).json(result); // ändra status till 200 för lyckade uppdateringar
     } catch (error) {
-        if (error.name === "ValidationError") { // kontrollerar valieringsfel
+        if (error.name === "ValidationError") { // kontrollerar valideringsfel
             const errors = {}; // vid valideringsfel skapas error
             for (let field in error.errors) { // loopar över fält med valideringsfel
                 errors[field] = error.errors[field].message; // och lägger till felmeddelande
             }
             return res.status(400).json({ errors });
         }
-        return res.status(400).json({ message: "Error adding data", error: error.message });
+        return res.status(500).json({ message: "Error updating data", error: error.message });
     }
-}); 
+});
 /*router.put("/bookings/:id", async (req, res) => {
     try {
         const result = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
