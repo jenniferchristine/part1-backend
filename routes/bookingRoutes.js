@@ -34,8 +34,9 @@ router.post("/bookings", async (req, res) => {
 // uppdatera en bokning
 router.put("/bookings/:id", async (req, res) => {
     try {
-        const result = await Booking.findByIdAndUpdate(req.params.id, req.body);
-        await result.validate(); // validerar mot mongoose
+        const update = await Booking.findByIdAndUpdate(req.params.id);
+        await update.validate(); // validerar mot mongoose
+        const updatedBooking = await updatedBooking.save(req.body);
         return res.status(201).json(result);
     } catch (error) {
         if (error.name === "ValidationError") { // kontrollerar valieringsfel
@@ -47,7 +48,7 @@ router.put("/bookings/:id", async (req, res) => {
         }
         return res.status(400).json({ message: "Error adding data", error: error.message });
     }
-});
+}); 
 /*router.put("/bookings/:id", async (req, res) => {
     try {
         const result = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
