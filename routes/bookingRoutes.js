@@ -6,9 +6,13 @@ const Booking = require("../models/booking");
 router.get("/bookings", async (req, res) => {
     try {
         const result = await Booking.find({});
-        res.json(result);
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "No data found: Could not fetch bookings" }); // statuskod ingen data finns
+        }
+        res.status(200).json({ message: "Bookings was found", result }); // statuskod okej resultat
     } catch (error) {
-        res.status(500).json({ message: "Error fetching data", error: error.message });
+        res.status(500).json({ message: "Error fetching data", error: error.message }); // statuskod serverfel
     }
 });
 
@@ -18,7 +22,8 @@ router.post("/bookings", async (req, res) => {
         const newBooking = new Booking(req.body);
         await newBooking.validate(); // validerar mot mongoose
         const result = await newBooking.save(req.body);
-        return res.status(201).json(result); // lyckad status kod
+        return res.status(201).json({ message: "Booking successfully added", result }); // lyckad status kod för ny resurs
+
     } catch (error) {
         if (error.name === "ValidationError") { // kontrollerar valieringsfel
             const errors = {}; // vid valideringsfel skapas error
@@ -36,8 +41,13 @@ router.post("/bookings", async (req, res) => {
 router.put("/bookings/:id", async (req, res) => {
     try {
         const result = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true }); // returnera det uppdaterade dokumentet
+        
+        if (!result) {
+            return res.status(404).json({ message: "No data found: Could not find specific booking" });
+        }
         await result.validate(); // validerar mot mongoose
-        return res.status(200).json(result); // ändra status till 200 för lyckade uppdateringar
+        return res.status(200).json({ message: "Updated booking successfully", result }); // ändra status till 200 för lyckade uppdateringar
+
     } catch (error) {
         if (error.name === "ValidationError") { // kontrollerar valideringsfel
             const errors = {}; // vid valideringsfel skapas error
@@ -46,7 +56,7 @@ router.put("/bookings/:id", async (req, res) => {
             }
             return res.status(400).json({ errors });
         }
-        return res.status(500).json({ message: "Error updating booking", error: error.message });
+        return res.status(500).json({ message: "Error updating data", error: error.message });
     }
 });
 
@@ -54,21 +64,29 @@ router.put("/bookings/:id", async (req, res) => {
 router.get("/bookings/:id", async (req, res) => {
     try {
         const result = await Booking.findById(req.params.id);
-        if (!result) return res.status(404).json({ message: "Data not found: Booking not found" });
-        res.json(result);
+        
+        if (!result) {
+            return res.status(404).json({ message: "No data found: Could not find specific booking" });
+        }
+        res.status(200).json({ message: "Booking was found", result });
     } catch (error) {
-        res.status(500).json({ message: "Error fetching data: Could not find specific booking", error: error.message });
+        console.error("Error fetching data:", error);
+        res.status(500).json({ message: "Error fetching specific data", error: error.message });
     }
 });
 
 // ta bort en bokning
 router.delete("/bookings/:id", async (req, res) => {
     try {
-        const deleteData = await Booking.findByIdAndDelete(req.params.id);
-        if (!deleteData) return res.status(404).json({ message: "Data could not be deleted - Booking not deleted" });
-        res.json({ message: "Deleted booking successfully", deleteData });
+        const result = await Booking.findByIdAndDelete(req.params.id);
+
+        if (!result) {
+            return res.status(404).json({ message: "No data found: Could not delete specific booking" });
+        }
+        res.status(200).json({ message: "Deleted booking successfully", result });
     } catch (error) {
-        res.status(500).json({ message: "Error when deleting booking", error: error.message });
+        console.error("Error deleting data:", error);
+        res.status(500).json({ message: "Error when deleting specific data", error: error.message });
     }
 });
 
