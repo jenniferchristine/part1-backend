@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 // ny användare
-router.post("/register", async (req, res) => {
+/*router.post("/register", async (req, res) => {
     try {
         const user = new User(req.body);
         await user.validate(); // validerar mot mongoose schemat
@@ -20,7 +20,7 @@ router.post("/register", async (req, res) => {
         }
         return res.status(400).json({ message: "Error adding data", error: error.message });
     }
-});
+});*/
 
 // login för användare
 router.post("/login", async (req, res) => {
