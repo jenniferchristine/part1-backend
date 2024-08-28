@@ -22,7 +22,7 @@ router.post("/dishes", async (req, res) => {
         const newDish = new Dish(req.body);
         await newDish.validate(); // validerar mot mongoose
         const result = await newDish.save(req.body); // sparar
-        return res.status({ message: "Dish successfully added", result }); // lyckad status kod för ny resurs
+        return res.status(201).json({ message: "Dish successfully added", result }); // lyckad status kod för ny resurs
 
     } catch (error) {
         if (error.name === "ValidationError") { // kontrollerar valieringsfel
