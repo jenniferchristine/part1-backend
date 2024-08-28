@@ -9,7 +9,7 @@ const bookingSchema = new mongoose.Schema({
             maxlength: [35, "Namnet får inte var längre än 35 tecken"]
         },
         phoneNumber: { // ska verkligen både nummer och email behövas? 
-            type: Number,
+            type: String,
             required: [true, "Du måste ange ett telefonnummer för bokningen"]
         },
         email: {

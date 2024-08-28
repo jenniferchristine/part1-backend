@@ -22,13 +22,14 @@ const dishSchema = new mongoose.Schema({
     }, 
     category: { 
         type: String, 
-        required: [true, "Vänligen kategorisera rätten som för-, huvud- eller efterrätt"] 
+        enum: ["Starter", "Main-course", "Dessert"],
+        required: [true, "Vänligen kategorisera rätten som för-, varm- eller efterrätt"] 
     },  
     contains: {
         type: String,
         required: [true, "Du behöver ange vad rätten innehåll, t.ex. nötter eller gluten"]
     },
-    ingredients: { // fixa modell till detta för antal och mängd? 
+    ingredients: { 
         type: String, 
         required: [true, "Du måste ange maträttens ingredienser"]
     }, 
