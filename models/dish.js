@@ -14,7 +14,7 @@ const dishSchema = new mongoose.Schema({
         type: String, 
         required: [true, "Ange en beskrivning av maträtten"], 
         minlength: [10, "Beskrivning måste vara minst 10 tecken lång"],
-        maxlength: [60, "Beskrivningen får inte vara längre än 100 tecken"]
+        maxlength: [100, "Beskrivningen får inte vara längre än 100 tecken"]
     }, 
     price: { 
         type: Number, 
@@ -22,7 +22,7 @@ const dishSchema = new mongoose.Schema({
     }, 
     category: { 
         type: String, 
-        enum: ["Starter", "Main-course", "Dessert"],
+        enum: ["Förrätt", "Varmrätt", "Efterrätt"],
         required: [true, "Vänligen kategorisera rätten som för-, varm- eller efterrätt"] 
     },  
     contains: {
