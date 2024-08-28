@@ -9,6 +9,7 @@ router.post("/register", async (req, res) => {
         const user = new User(req.body); // ny användare med data från req body
         await user.validate(); // validerar mot mongoose schemat
         const result = await user.save();
+
         return res.status(201).json({ message: "User created" });
     } catch (error) {
         if (error.name === "ValidationError") { // kontrollerar valieringsfel
@@ -44,7 +45,7 @@ router.post("/login", async (req, res) => {
                 message: "Login successful",
                 token: token
             }
-            res.status(200).json({ message: "Login successful" });
+            res.status(200).json({ message: "Login successful", response });
         }
     } catch (error) {
         console.error("Error during login:", error);
