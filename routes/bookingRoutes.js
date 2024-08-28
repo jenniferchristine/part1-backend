@@ -27,7 +27,7 @@ router.post("/bookings", async (req, res) => {
             }
             return res.status(400).json({ errors });
         }
-        return res.status(400).json({ message: "Error adding data", error: error.message });
+        return res.status(400).json({ message: "Error adding new booking", error: error.message });
     }
 });
 
@@ -45,7 +45,7 @@ router.put("/bookings/:id", async (req, res) => {
             }
             return res.status(400).json({ errors });
         }
-        return res.status(500).json({ message: "Error updating data", error: error.message });
+        return res.status(500).json({ message: "Error updating booking", error: error.message });
     }
 });
 /*router.put("/bookings/:id", async (req, res) => {
@@ -62,10 +62,10 @@ router.put("/bookings/:id", async (req, res) => {
 router.get("/bookings/:id", async (req, res) => {
     try {
         const result = await Booking.findById(req.params.id);
-        if (!result) return res.status(404).json({ message: "Data not found" });
+        if (!result) return res.status(404).json({ message: "Data not found: Booking not found" });
         res.json(result);
     } catch (error) {
-        res.status(500).json({ message: "Error fetching data", error: error.message });
+        res.status(500).json({ message: "Error fetching data: Could not find specific booking", error: error.message });
     }
 });
 
@@ -73,10 +73,10 @@ router.get("/bookings/:id", async (req, res) => {
 router.delete("/bookings/:id", async (req, res) => {
     try {
         const deleteData = await Booking.findByIdAndDelete(req.params.id);
-        if (!deleteData) return res.status(404).json({ message: "Data could not be deleted" });
-        res.json({ message: "Deleted successfully", deleteData });
+        if (!deleteData) return res.status(404).json({ message: "Data could not be deleted - Booking not deleted" });
+        res.json({ message: "Deleted booking successfully", deleteData });
     } catch (error) {
-        res.status(500).json({ message: "Error when deleting", error: error.message });
+        res.status(500).json({ message: "Error when deleting booking", error: error.message });
     }
 });
 
