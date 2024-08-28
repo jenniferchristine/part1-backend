@@ -27,7 +27,8 @@ router.post("/dishes", async (req, res) => {
             }
             return res.status(400).json({ errors });
         }
-        return res.status(400).json({ message: "Error adding new dish", error: error.message });
+        console.error("Unexpected error:", error);
+        return res.status(500).json({ message: "Internal server error", error: error.message });
     }
 });
 
@@ -48,16 +49,6 @@ router.put("/dishes/:id", async (req, res) => {
         return res.status(500).json({ message: "Error updating dish", error: error.message });
     }
 });
-/*
-router.put("/dishes/:id", async (req, res) => {
-    try {
-        const result = await Dish.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-        if (!result) return res.status(404).json({ message: "Could not update data" });
-        res.json({ message: "Updated successfully", result });
-    } catch (error) {
-        res.status(500).json({ message: "Error when updating", error: error.message });
-    }
-});*/
 
 // hämta en specifik maträtt
 router.get("/dishes/:id", async (req, res) => {

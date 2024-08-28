@@ -18,7 +18,7 @@ router.post("/bookings", async (req, res) => {
         const newBooking = new Booking(req.body);
         await newBooking.validate(); // validerar mot mongoose
         const result = await newBooking.save(req.body);
-        return res.status(201).json(result);
+        return res.status(201).json(result); // lyckad status kod
     } catch (error) {
         if (error.name === "ValidationError") { // kontrollerar valieringsfel
             const errors = {}; // vid valideringsfel skapas error
@@ -27,7 +27,8 @@ router.post("/bookings", async (req, res) => {
             }
             return res.status(400).json({ errors });
         }
-        return res.status(400).json({ message: "Error adding new booking", error: error.message });
+        console.error("Unexpected error:", error);
+        return res.status(500).json({ message: "Internal server error", error: error.message }); // statuskod oväntat fel
     }
 });
 
@@ -48,15 +49,6 @@ router.put("/bookings/:id", async (req, res) => {
         return res.status(500).json({ message: "Error updating booking", error: error.message });
     }
 });
-/*router.put("/bookings/:id", async (req, res) => {
-    try {
-        const result = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-        if (!result) return res.status(404).json({ message: "Could not update data" });
-        res.json({ message: "Updated successfully", result });
-    } catch (error) {
-        res.status(500).json({ message: "Error when updating", error: error.message });
-    }
-});*/
 
 // hämta en specifik bokning
 router.get("/bookings/:id", async (req, res) => {
