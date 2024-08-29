@@ -10,11 +10,11 @@
 # Webbtjänst
 
 >### Beskrivning av projektarbete del 1:
->Denna uppgift är den första delen av Moment 4 - Autentisering och säkerhet. Detta är en REST-webbtjänst byggt med Express och Moongose schema som hanterar användare och inloggning. Tjänsten innehar akronymen CRUD för att hantera data i en databas samt CORS för att låta resurser begäras från annan ursprung. 
+>I denna del av projektarbetet har en webbtjänst skapats. Denna webbtjänst är baserad på en NoSQL-databas hos MongoDB. Databasen består av tre collections - users, bookings och dishes. Detta används för att lagra användare, bokningar och maträtter.
 >
->APIet använder en MongoDB-databas och kan användas genom att köra kommando npm install för installation av nödvändiga npm-paket och npm run server för att starta webbtjänsten. En liveversion av webbtjänsten finns tillgänglig här: [Länk till API](https://moment4-1.onrender.com/)
+>Webbtjänsten används genom att köra kommando npm install för installation av nödvändiga npm-paket och npm run server för att starta webbtjänsten. En liveversion av webbtjänsten finns tillgänglig här: [Länk till API](https://pastaplace.onrender.com/)
 >
->Denna webbtjänst är skapad med funktionalitet för autentisering med registrering av användarkonton samt inloggning och använder även JSON Web Token för sessionshantering samt förhindra obehörig åtkomst. Den är också skapad med syftet att skydda känslig data.
+>Denna webbtjänst är skapad med funktionalitet för autentisering med registrering av användarkonton samt inloggning och använder även JSON Web Token för sessionshantering samt förhindra obehörig åtkomst. Den är också skapad med syftet att skydda känslig data. För att hantera detta, samt bokningar och maträtter, använden den sig av CRUD (create, read, update and delete) för att addera, uppdatera och radera data.
 
 <br>
 
@@ -25,15 +25,59 @@
 | Metod | Ändpunkt | Beskrivning |
 |-----------------|-----------------|-----------------|
 | GET | / | Hämtar webbtjänsten |
-| GET | /api/protected | Skapar route som kräver autentisering |
-| POST | /login | Route för inloggning |
+| GET | /admin | Skapar route som kräver autentisering |
+| POST | /login | Route för inloggning (skapar token) |
 | POST | /register | Route för registrering |
+|
+| GET | /dishes | Hämtar lagrade maträtter |
+| POST | /dishes | Lagrar maträtt (kräver autentisering) |
+| PUT | /dishes | Uppdaterar maträtt (kräver autentisering) |
+| DELETE | /dishes | Raderar maträtt (kräver autentisering) |
+|
+| GET | /bookings | Hämtar lagrade bokningar (kräver autentisering) |
+| POST | /bookings | Lagrar bokning |
+| PUT | /bookings | Uppdaterar bokning (kräver autentisering) |
+| DELETE | /bookings | Raderar bokning (kräver autentisering) |
+
+
 
 <br>
 
-#### Ett user-objekt returneras/skickas som JSON med följande struktur vid registrering:
+### Ett objekt returneras/skickas som JSON med följande struktur:
+#### /dishes:
 
-<br>
+```json
+{
+  "_id": ObjectId("66298100c0cfa4410c5346d1"),
+  "name": "Lemon Pasta",
+  "description": "Väldigt god och syrlig pasta!",
+  "price": 129,
+  "category": "Varmrätt",
+  "contains": "Laktos, citrus",
+  "created": 2024-06-07T20:06:51.798+00:00,
+  "__v": 0
+}
+```
+#### /bookings:
+
+```json
+{
+  "_id": ObjectId("66298100c0cfa4410c5346d1"),
+  "customer": {
+    "name": "Jennifer Jakobsson",
+    "phoneNumber": "0706312234",
+    "email": "jeja2306@student.miun.se"
+  },
+  "bookingDate": 2024-09-06T23:29:00.000+00:00,
+  "guests": 1,
+  "requests": "Uteservering",
+  "status": "Pending",
+  "createdAt": 2024-08-27T19:29:50.438+00:00,
+  "updatedAt": 2024-08-27T19:29:50.438+00:00,
+  "__v": 0
+}
+```
+#### /register:
 
 ```json
 {
@@ -47,47 +91,3 @@
     "__v": 0
 }
 ```
-
-<br>
-
-### Struktur av userSchema:
-
-- **username**
-  - Type: String
-  - Required: Yes
-  - Unique: Yes
-  - Trimmed: Yes
-  - Minimum Length: 3 characters
-  - Maximum Length: 20 characters
-  - Validation: Must be unique and between 3 and 20 characters long
-
-- **password**
-  - Type: String
-  - Required: Yes
-  - Validation: Must contain at least one number
-
-- **firstname**
-  - Type: String
-  - Required: Yes
-  - Trimmed: Yes
-  - Maximum Length: 25 characters
-
-- **lastname**
-  - Type: String
-  - Required: Yes
-  - Trimmed: Yes
-  - Maximum Length: 30 characters
-
-- **email**
-  - Type: String
-  - Required: Yes
-  - Trimmed: Yes
-  - Unique: Yes
-  - Validation: Must be a valid email address format
-  - Example: `example@example.com`
-
-- **created**
-  - Type: Date
-  - Default: Current Date and Time
-
-<br>
